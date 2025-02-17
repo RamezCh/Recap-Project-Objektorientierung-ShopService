@@ -56,4 +56,25 @@ class ShopServiceTest {
         assertNotEquals(Collections.emptyList(), orders);
         assertNotNull(orders);
     }
+
+    @Test
+    void updateOrder_returnExceptionIllegalArgument(){
+        //GIVEN
+        ShopService shopService = new ShopService();
+        // WHEN & THEN
+        assertThrows(IllegalArgumentException.class, () -> shopService.updateOrder("2", OrderStatus.COMPLETED));
+    }
+
+    @Test
+    void updateOrder_returnUpdatedOrder(){
+        //GIVEN
+        ShopService shopService = new ShopService();
+        List<String> productsIds = List.of("1");
+        Order added = shopService.addOrder(productsIds);
+        // WHEN
+        Order expected = added.withStatus(OrderStatus.IN_DELIVERY);
+        Order actual = shopService.updateOrder(added.id(),OrderStatus.IN_DELIVERY);
+        // THEN
+        assertEquals(expected, actual);
+    }
 }

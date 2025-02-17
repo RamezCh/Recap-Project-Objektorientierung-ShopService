@@ -27,4 +27,14 @@ public class ShopService {
                 .filter(order -> order.status().equals(status))
                 .collect(Collectors.toList());
     }
+
+    public Order updateOrder(String orderId, OrderStatus newStatus) {
+        try {
+            Order existingOrder = orderRepo.getOrderById(orderId);
+            Order updatedOrder = existingOrder.withStatus(newStatus);
+            return orderRepo.updateOrder(updatedOrder);
+        } catch (NullPointerException e) {
+            throw new IllegalArgumentException("Order with ID " + orderId + " does not exist.", e);
+        }
+    }
 }

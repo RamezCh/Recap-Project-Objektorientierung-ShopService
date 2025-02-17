@@ -30,4 +30,15 @@ public class OrderListRepo implements OrderRepo{
             }
         }
     }
+
+    @Override
+    public Order updateOrder(Order order) {
+        for (int i = 0; i < orders.size(); i++) {
+            if (orders.get(i).id().equals(order.id())) {
+                orders.set(i, order);
+                return order;
+            }
+        }
+        throw new IllegalArgumentException("Order mit der Id: " + order.id() + " konnte nicht gefunden werden!");
+    }
 }
